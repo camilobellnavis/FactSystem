@@ -1,0 +1,172 @@
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="d-flex flex-row flex-column-fluid page">
+        <app-sidebar></app-sidebar>
+        <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+            <!--begin::Header-->
+            <app-top></app-top>
+            <!--end::Header-->
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                <!--begin::Subheader-->
+                <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+                    <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+                        <!--begin::Info-->
+                        <div class="d-flex align-items-center flex-wrap mr-2">
+                            <!--begin::Page Title-->
+                            <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5">Dashboard</h5>
+                            <!--end::Page Title-->
+                            <!--begin::Actions-->
+                            <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                            <!--end::Actions-->
+                        </div>
+                        <!--end::Info-->
+
+                    </div>
+                </div>
+                <!--end::Subheader-->
+                <!--begin::Entry-->
+                <div class="d-flex flex-column-fluid">
+                    <!--begin::Container-->
+                    <div class="container">
+
+                        <div class="card card-custom">
+                            <div class="card-header flex-wrap border-0 pt-6 pb-0">
+                                <div class="card-title">
+                                    <h3 class="card-label">Facturas
+                                        <span class="text-muted pt-2 font-size-sm d-block">Listado completos de todas las facturas </span></h3>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!--begin: Search Form-->
+
+                                <div class="mb-7">
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-9 col-xl-8">
+                                            <div class="row align-items-center">
+                                                <div class="col-md-6 my-2 my-md-0">
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" placeholder="Busqueda general" name="filtro">
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-primary" type="button"><svg width="24px" height="15px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                <g id="Stockholm-icons-/-General-/-Search" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                                                    <path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" id="Path-2" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+                                                                    <path d="M11,16 C13.7614237,16 16,13.7614237 16,11 C16,8.23857625 13.7614237,6 11,6 C8.23857625,6 6,8.23857625 6,11 C6,13.7614237 8.23857625,16 11,16 Z M11,18 C7.13400675,18 4,14.8659932 4,11 C4,7.13400675 7.13400675,4 11,4 C14.8659932,4 18,7.13400675 18,11 C18,14.8659932 14.8659932,18 11,18 Z" id="Path" fill="#000000" fill-rule="nonzero"></path>
+                                                                </g>
+                                                            </svg>Buscar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+
+                                        <div class="table-responsive">
+                                            <table class="table table-head-custom table-head-bg table-borderless table-vertical-center">
+                                                <thead>
+                                                    <tr class="text-left text-uppercase">
+                                                        <th style="min-width: 250px" class="pl-7">
+                                                            <span class="text-dark-75">ID</span>
+                                                        </th>
+                                                        <th style="min-width: 100px">Num Factura</th>
+                                                        <th style="min-width: 100px">Dni Cliente</th>
+                                                        <th style="min-width: 100px">Subtotal</th>
+                                                        <th style="min-width: 100px">Impuesto</th>
+                                                        <th style="min-width: 100px">Total</th>
+
+                                                        <th style="min-width: 80px"></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="pl-0 py-5">
+                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">#1</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">12345</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">1151963148</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">$3.000</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">400</span>
+                                                        </td>
+                                                        <td>
+                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">$3.400</span>
+                                                        </td>
+
+                                                        <td class="pr-0 text-right">
+                                                            <div class="dropdown dropleft">
+                                                                <button type="button" class="btn btn-light-primary btn-icon btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="ki ki-bold-more-ver"></i>
+                                                                </button>
+                                                                <div class="dropdown-menu">
+                                                                    <a style="cursor: pointer;" class="dropdown-item" data-toggle="modal" [attr.data-target]="'#delete-'+ 1">
+                                                                        <i class="icon-1x text-dark-50 flaticon2-cross"></i> &nbsp; Desactivar
+                                                                    </a>
+                                                                    <a style="cursor: pointer;" class="dropdown-item" data-toggle="modal" [attr.data-target]="'#delete-'+ 1">
+                                                                        <i class="icon-1x text-dark-50 flaticon2-check-mark"></i> &nbsp; Activar
+                                                                    </a>
+                                                                    <a class="dropdown-item" [routerLink]="['/cliente', 1]">
+                                                                        <i class="icon-1x text-dark-50 flaticon2-edit"></i> &nbsp; Editar
+                                                                    </a>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal fade" id="delete-1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title" id="exampleModalLabel">Gestionar Estado</h5>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <i aria-hidden="true" class="ki ki-close"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <p style="text-align: left;">¿Estas seguro de cambiar el estado de este colaborador?</p>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-warning font-weight-bold" data-dismiss="modal">No</button>
+                                                                            <button type="button" class="btn btn-danger font-weight-bold">Si</button>
+
+                                                                            <button class="btn btn-danger" type="button" disabled>
+                                                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                                Enviando...
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--end::Entry-->
+            </div>
+            <!--end::Content-->
+
+        </div>
+    </div>
+</div>
