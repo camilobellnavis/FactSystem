@@ -127,10 +127,10 @@
                                                                     <i class="ki ki-bold-more-ver"></i>
                                                                 </button>
                                                                 <div class="dropdown-menu">
-                                                                    <a style="cursor: pointer;" class="dropdown-item" data-toggle="modal" [attr.data-target]="'#delete-'+ 1">
+                                                                    <a style="cursor: pointer;" class="dropdown-item" data-toggle="modal" [attr.data-target]="'#delete-'+ cliente.idCliente">
                                                                         <i class="icon-1x text-dark-50 flaticon2-cross"></i> &nbsp; Desactivar
                                                                     </a>
-                                                                    <a style="cursor: pointer;" class="dropdown-item" data-toggle="modal" [attr.data-target]="'#delete-'+ 1">
+                                                                    <a style="cursor: pointer;" class="dropdown-item" data-toggle="modal" [attr.data-target]="'#delete-'+ cliente.idCliente">
                                                                         <i class="icon-1x text-dark-50 flaticon2-check-mark"></i> &nbsp; Activar
                                                                     </a>
                                                                     <a class="dropdown-item" [routerLink]="['/cliente', cliente.idCliente]">

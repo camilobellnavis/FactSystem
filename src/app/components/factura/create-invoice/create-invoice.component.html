@@ -37,16 +37,19 @@
                                         <span class="text-muted pt-2 font-size-sm d-block">Datos Factura</span></h3>
                                 </div>
                                 <div class="card-toolbar">
-                                    <a class="btn btn-success"><span class="svg-icon menu-icon">
-                                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <defs></defs>
-                                            <g id="Stockholm-icons-/-Communication-/-Add-user" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                                <path d="M18,8 L16,8 C15.4477153,8 15,7.55228475 15,7 C15,6.44771525 15.4477153,6 16,6 L18,6 L18,4 C18,3.44771525 18.4477153,3 19,3 C19.5522847,3 20,3.44771525 20,4 L20,6 L22,6 C22.5522847,6 23,6.44771525 23,7 C23,7.55228475 22.5522847,8 22,8 L20,8 L20,10 C20,10.5522847 19.5522847,11 19,11 C18.4477153,11 18,10.5522847 18,10 L18,8 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                                                <path d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z" id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
-                                            </g>
-                                        </svg>
-                                    </span>Agregar Cliente</a>
+                                    <button class="btn btn-success" data-toggle="modal" [attr.data-target]="'#crearcliente'">
+                                        <span class="svg-icon menu-icon">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <defs></defs>
+                                                <g id="Stockholm-icons-/-Communication-/-Add-user" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+                                                    <path d="M18,8 L16,8 C15.4477153,8 15,7.55228475 15,7 C15,6.44771525 15.4477153,6 16,6 L18,6 L18,4 C18,3.44771525 18.4477153,3 19,3 C19.5522847,3 20,3.44771525 20,4 L20,6 L22,6 C22.5522847,6 23,6.44771525 23,7 C23,7.55228475 22.5522847,8 22,8 L20,8 L20,10 C20,10.5522847 19.5522847,11 19,11 C18.4477153,11 18,10.5522847 18,10 L18,8 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+                                                    <path d="M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z" id="Mask-Copy" fill="#000000" fill-rule="nonzero"></path>
+                                                </g>
+                                            </svg>
+                                        </span>Agregar Cliente
+                                    
+                                    </button>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -56,19 +59,24 @@
                                         <input style="width: 15pc;" required="true" class="form-control form-control-solid form-control-lg" name="codigo" type="text" placeholder="Código" />
                                     </div>
                                     <div>
-                                        <input required="true" class="form-control form-control-solid form-control-lg" name="cliente" type="text" placeholder="Cliente" />
+                                        <select style="width: 15pc;" (change)="validarCliente(idCliente)" required="true" name="cliente" [(ngModel)]="idCliente" class="form-control form-control-solid form-control-lg">
+                                            <option value="" selected disabled>Cliente</option>
+                                            <optgroup *ngFor="let cliente of clientes" [label]="cliente.nombre"> 
+                                                <option  [value]="cliente.idCliente">{{cliente.idCliente}}</option>                                                                 
+                                            </optgroup>                                                               
+                                        </select>
                                     </div>
                                     <div>
-                                        <input required="true" class="form-control form-control-solid form-control-lg" name="dni" type="text" placeholder="Numero de documento" />
+                                        <input [disabled]="existCustomer" required="true" [(ngModel)]="cliente.identificacion" class="form-control form-control-solid form-control-lg" name="dni" type="text" placeholder="Numero de documento" />
                                     </div>
                                     <div>
-                                        <input required="true" class="form-control form-control-solid form-control-lg" name="nombres" type="text" placeholder="Nombres" />
+                                        <input [disabled]="existCustomer" required="true" [(ngModel)]="cliente.nombre" class="form-control form-control-solid form-control-lg" name="nombres" type="text" placeholder="Nombres" />
                                     </div>
                                 </div>
                                 <div style="    display: flex;
                                 margin-top: 2pc;">
                                     <div>
-                                        <input style="width: 15pc;" required="true" class="form-control form-control-solid form-control-lg" name="correo" type="text" placeholder="Correo" />
+                                        <input [disabled]="existCustomer" style="width: 15pc;" [(ngModel)]="cliente.correo" required="true" class="form-control form-control-solid form-control-lg" name="correo" type="text" placeholder="Correo" />
                                     </div>
                                 </div>
                             </div>
@@ -79,31 +87,46 @@
                                         <span class="text-muted pt-2 font-size-sm d-block">Datos Producto</span></h3>
                                 </div>
                                 <div class="card-toolbar">
-                                    <a class="btn btn-success"><span class="svg-icon menu-icon">
-                                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <g id="Stockholm-icons-/-Shopping-/-Gift" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <rect id="bound" x="0" y="0" width="24" height="24"></rect>
-                                                <path d="M4,6 L20,6 C20.5522847,6 21,6.44771525 21,7 L21,8 C21,8.55228475 20.5522847,9 20,9 L4,9 C3.44771525,9 3,8.55228475 3,8 L3,7 C3,6.44771525 3.44771525,6 4,6 Z M5,11 L10,11 C10.5522847,11 11,11.4477153 11,12 L11,19 C11,19.5522847 10.5522847,20 10,20 L5,20 C4.44771525,20 4,19.5522847 4,19 L4,12 C4,11.4477153 4.44771525,11 5,11 Z M14,11 L19,11 C19.5522847,11 20,11.4477153 20,12 L20,19 C20,19.5522847 19.5522847,20 19,20 L14,20 C13.4477153,20 13,19.5522847 13,19 L13,12 C13,11.4477153 13.4477153,11 14,11 Z" id="Combined-Shape" fill="#000000"></path>
-                                                <path d="M14.4452998,2.16794971 C14.9048285,1.86159725 15.5256978,1.98577112 15.8320503,2.4452998 C16.1384028,2.90482849 16.0142289,3.52569784 15.5547002,3.83205029 L12,6.20185043 L8.4452998,3.83205029 C7.98577112,3.52569784 7.86159725,2.90482849 8.16794971,2.4452998 C8.47430216,1.98577112 9.09517151,1.86159725 9.5547002,2.16794971 L12,3.79814957 L14.4452998,2.16794971 Z" id="Path-31" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                                            </g>
-                                        </svg>
-                                    </span>Agregar Producto</a>
+                                    <button [disabled]="cantidadProducto > producto.inventario" class="btn btn-success" data-toggle="modal" [attr.data-target]="'#crearproducto'">
+                                        <span class="svg-icon menu-icon">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <g id="Stockholm-icons-/-Shopping-/-Gift" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                                    <path d="M4,6 L20,6 C20.5522847,6 21,6.44771525 21,7 L21,8 C21,8.55228475 20.5522847,9 20,9 L4,9 C3.44771525,9 3,8.55228475 3,8 L3,7 C3,6.44771525 3.44771525,6 4,6 Z M5,11 L10,11 C10.5522847,11 11,11.4477153 11,12 L11,19 C11,19.5522847 10.5522847,20 10,20 L5,20 C4.44771525,20 4,19.5522847 4,19 L4,12 C4,11.4477153 4.44771525,11 5,11 Z M14,11 L19,11 C19.5522847,11 20,11.4477153 20,12 L20,19 C20,19.5522847 19.5522847,20 19,20 L14,20 C13.4477153,20 13,19.5522847 13,19 L13,12 C13,11.4477153 13.4477153,11 14,11 Z" id="Combined-Shape" fill="#000000"></path>
+                                                    <path d="M14.4452998,2.16794971 C14.9048285,1.86159725 15.5256978,1.98577112 15.8320503,2.4452998 C16.1384028,2.90482849 16.0142289,3.52569784 15.5547002,3.83205029 L12,6.20185043 L8.4452998,3.83205029 C7.98577112,3.52569784 7.86159725,2.90482849 8.16794971,2.4452998 C8.47430216,1.98577112 9.09517151,1.86159725 9.5547002,2.16794971 L12,3.79814957 L14.4452998,2.16794971 Z" id="Path-31" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+                                                </g>
+                                            </svg>
+                                        </span>
+                                    Agregar Producto
+                                    </button>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <div style="display: flex;
                                 justify-content: space-between;">
                                     <div>
-                                        <input style="width: 15pc;" required="true" class="form-control form-control-solid form-control-lg" name="id" type="text" placeholder="Id producto" />
+                                        <select style="width: 15pc;" (change)="validarProducto(idProducto)" required="true" name="producto" [(ngModel)]="idProducto" class="form-control form-control-solid form-control-lg">
+                                            <option value="" selected disabled>producto</option>
+                                            <optgroup *ngFor="let producto of productos" [label]="producto.nombre"> 
+                                                <option  [value]="producto.idProducto">{{producto.idProducto}}</option>                                                                 
+                                            </optgroup>
+                                        
+                                        </select>
+                                        <label *ngIf="existProduct" style="color: #02ae21;">*Tiene en stock: {{ producto.inventario }}</label>
+
                                     </div>
                                     <div>
-                                        <input required="true" class="form-control form-control-solid form-control-lg" name="nombreprod" type="text" placeholder="Nombre producto" />
+                                        <input [disabled]="existProduct" required="true" class="form-control form-control-solid form-control-lg" [(ngModel)]="producto.nombre" name="nombreprod" type="text" placeholder="Nombre producto" />
                                     </div>
                                     <div>
-                                        <input required="true" class="form-control form-control-solid form-control-lg" name="precio" type="text" placeholder="Precio" />
+                                        <input id="precioInput" [disabled]="existProduct" required="true" class="form-control form-control-solid form-control-lg" [(ngModel)]="precioTransform" [value]="precioTransform" name="precio" type="text" placeholder="Precio" />
+                                        <label *ngIf="existProduct" style="color: #02ae21;">Precio x unidad.</label>
                                     </div>
                                     <div>
-                                        <input required="true" class="form-control form-control-solid form-control-lg" name="cantidad" type="text" placeholder="Cantidad" />
+                                        <input [disabled]="!existProduct" required="true" class="form-control form-control-solid form-control-lg" name="cantidad" type="number" [(ngModel)]="cantidadProducto" [defaultValue]="0" [min]="1" placeholder="Cantidad" />
+                                        <label *ngIf="cantidadProducto > producto.inventario" class="text-danger">
+                                            La cantidad supera el stock
+                                          </label>
                                     </div>
                                 </div>
 
@@ -151,15 +174,18 @@
                                         <span class="text-muted pt-2 font-size-sm d-block"></span></h3>
                                 </div>
                                 <div class="card-toolbar">
-                                    <a class="btn btn-primary"><span class="svg-icon menu-icon">
-                                        <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                                            <g id="Stockholm-icons-/-Files-/-Downloaded-file" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
-                                                <path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
-                                                <path d="M14.8875071,11.8306874 L12.9310336,11.8306874 L12.9310336,9.82301606 C12.9310336,9.54687369 12.707176,9.32301606 12.4310336,9.32301606 L11.4077349,9.32301606 C11.1315925,9.32301606 10.9077349,9.54687369 10.9077349,9.82301606 L10.9077349,11.8306874 L8.9512614,11.8306874 C8.67511903,11.8306874 8.4512614,12.054545 8.4512614,12.3306874 C8.4512614,12.448999 8.49321518,12.5634776 8.56966458,12.6537723 L11.5377874,16.1594334 C11.7162223,16.3701835 12.0317191,16.3963802 12.2424692,16.2179453 C12.2635563,16.2000915 12.2831273,16.1805206 12.3009811,16.1594334 L15.2691039,12.6537723 C15.4475388,12.4430222 15.4213421,12.1275254 15.210592,11.9490905 C15.1202973,11.8726411 15.0058187,11.8306874 14.8875071,11.8306874 Z" id="Shape" fill="#000000"></path>
-                                            </g>
-                                        </svg>
-                                    </span>Generar Factura</a>
+                                    <button [disabled]="cantidadProducto > producto.inventario" class="btn btn-primary"> 
+                                        <span class="svg-icon menu-icon">
+                                            <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                <g id="Stockholm-icons-/-Files-/-Downloaded-file" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <polygon id="Shape" points="0 0 24 0 24 24 0 24"></polygon>
+                                                    <path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" id="Combined-Shape" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
+                                                    <path d="M14.8875071,11.8306874 L12.9310336,11.8306874 L12.9310336,9.82301606 C12.9310336,9.54687369 12.707176,9.32301606 12.4310336,9.32301606 L11.4077349,9.32301606 C11.1315925,9.32301606 10.9077349,9.54687369 10.9077349,9.82301606 L10.9077349,11.8306874 L8.9512614,11.8306874 C8.67511903,11.8306874 8.4512614,12.054545 8.4512614,12.3306874 C8.4512614,12.448999 8.49321518,12.5634776 8.56966458,12.6537723 L11.5377874,16.1594334 C11.7162223,16.3701835 12.0317191,16.3963802 12.2424692,16.2179453 C12.2635563,16.2000915 12.2831273,16.1805206 12.3009811,16.1594334 L15.2691039,12.6537723 C15.4475388,12.4430222 15.4213421,12.1275254 15.210592,11.9490905 C15.1202973,11.8726411 15.0058187,11.8306874 14.8875071,11.8306874 Z" id="Shape" fill="#000000"></path>
+                                                </g>
+                                            </svg>
+                                        </span>
+                                        Generar Factura
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -171,6 +197,176 @@
             </div>
             <!--end::Content-->
 
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="crearcliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Cliente</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+
+            <form id="kt_form" #registroForm="ngForm">
+                <div class="row justify-content-center">
+                    <div class="col-xl-9">
+                        <!--begin::Wizard Step 1-->
+                        <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+                            <!--begin::Group-->
+                            <div class="form-group row">
+                                <label class="col-xl-4 col-lg-4 col-form-label">Identificación(*)</label>
+                                <div class="col-lg-8 col-xl-8">
+                                    <input required="true" class="form-control form-control-solid form-control-lg" name="identificacion" type="text" placeholder="Identificación" />
+                                </div>
+                            </div>
+                            <!--end::Group-->
+                            <!--begin::Group-->
+                            <div class="form-group row">
+                                <label class="col-xl-4 col-lg-4 col-form-label">Nombre(*)</label>
+                                <div class="col-lg-8 col-xl-8">
+                                    <input required="true" class="form-control form-control-solid form-control-lg" name="nombre" type="text" placeholder="Nombre" />
+                                </div>
+                            </div>
+                            <!--end::Group-->
+                            <!--begin::Group-->
+                            <div class="form-group row">
+                                <label class="col-xl-4 col-lg-4 col-form-label">Dirección(*)</label>
+                                <div class="col-lg-8 col-xl-8">
+                                    <input required="true" class="form-control form-control-solid form-control-lg" name="direccion" type="text" placeholder="Dirección" />
+                                </div>
+                            </div>
+                            <!--end::Group-->
+                            <!--begin::Group-->
+                            <div class="form-group row">
+                                <label class="col-xl-6 col-lg-6 col-form-label">Fecha de Creación (*)</label>
+                                <div class="col-lg-6 col-xl-6">
+                                    <input disabled="true" required="true" class="form-control form-control-solid form-control-lg" name="fecha" type="date" placeholder="Fecha Creación" />
+                                </div>
+                            </div>
+                            <!--end::Group-->
+                            <!--begin::Group-->
+                            <div class="form-group row">
+                                <label class="col-xl-5 col-lg-5 col-form-label">Correo eletrónico (*)</label>
+                                <div class="col-lg-7 col-xl-7">
+                                    <input required="true" class="form-control form-control-solid form-control-lg" name="correo" type="email" placeholder="Correo eletrónico" />
+                                </div>
+                            </div>
+                            <!--end::Group-->
+                            <!--begin::Group-->
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 col-form-label">Activo (*)</label>
+                                <div class="col-lg-9 col-xl-9">
+                                    <select required="true" name="activo" class="form-control form-control-solid form-control-lg">
+                                            <option [ngValue]="undefined" selected disabled>Seleccionar...</option>
+                                            <option [ngValue]="1">Si</option>
+                                            <option [ngValue]="0">No</option>
+                                        </select>
+                                </div>
+                            </div>
+                            <!--end::Group-->
+                        </div>
+                        <!--end::Wizard Step 1-->
+
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success font-weight-bold">Guardar</button>
+
+                <!-- <button class="btn btn-success" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Enviando...
+                </button> -->
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="crearproducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+
+            <form id="kt_form" #registroForm="ngForm">
+                <div class="row justify-content-center">
+                    <div class="col-xl-9">
+                        <!--begin::Wizard Step 1-->
+                        <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
+                            <!--begin::Group-->
+                            <div class="form-group row">
+                                <label class="col-xl-4 col-lg-4 col-form-label">Código(*)</label>
+                                <div class="col-lg-8 col-xl-8">
+                                    <input required="true" class="form-control form-control-solid form-control-lg" name="identificacion" type="text" placeholder="Identificación" />
+                                </div>
+                            </div>
+                            <!--end::Group-->
+                            <!--begin::Group-->
+                            <div class="form-group row">
+                                <label class="col-xl-4 col-lg-4 col-form-label">Nombre(*)</label>
+                                <div class="col-lg-8 col-xl-8">
+                                    <input required="true" class="form-control form-control-solid form-control-lg" name="nombre" type="text" placeholder="Nombre" />
+                                </div>
+                            </div>
+                            <!--end::Group-->
+                            <!--begin::Group-->
+                            <div class="form-group row">
+                                <label class="col-xl-4 col-lg-4 col-form-label">Precio(*)</label>
+                                <div class="col-lg-8 col-xl-8">
+                                    <input required="true" class="form-control form-control-solid form-control-lg" name="direccion" type="text" placeholder="Dirección" />
+                                </div>
+                            </div>
+                            <!--end::Group-->
+                            <!--begin::Group-->
+                            <div class="form-group row">
+                                <label class="col-xl-5 col-lg-5 col-form-label">Stock (*)</label>
+                                <div class="col-lg-7 col-xl-7">
+                                    <input required="true" class="form-control form-control-solid form-control-lg" name="correo" type="email" placeholder="Correo eletrónico" />
+                                </div>
+                            </div>
+                            <!--end::Group-->
+                            <!--begin::Group-->
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 col-form-label">Activo (*)</label>
+                                <div class="col-lg-9 col-xl-9">
+                                    <select required="true" name="activo" class="form-control form-control-solid form-control-lg">
+                                            <option [ngValue]="undefined" selected disabled>Seleccionar...</option>
+                                            <option [ngValue]="1">Si</option>
+                                            <option [ngValue]="0">No</option>
+                                        </select>
+                                </div>
+                            </div>
+                            <!--end::Group-->
+                            <!--begin::Group-->
+                            <div class="form-group row">
+                                <label class="col-xl-6 col-lg-6 col-form-label">Fecha de Creación (*)</label>
+                                <div class="col-lg-6 col-xl-6">
+                                    <input disabled="true" required="true" class="form-control form-control-solid form-control-lg" name="fecha" type="date" placeholder="Fecha Creación" />
+                                </div>
+                            </div>
+                            <!--end::Group-->
+                        </div>
+                        <!--end::Wizard Step 1-->
+
+                    </div>
+                </div>
+            </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success font-weight-bold">Guardar</button>
+
+                <!-- <button class="btn btn-success" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Enviando...
+                </button> -->
+            </div>
         </div>
     </div>
 </div>

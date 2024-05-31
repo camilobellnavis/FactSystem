@@ -25,7 +25,7 @@ import { IndexProductComponent } from './components/producto/index-product/index
 import { FacturaComponent } from './components/factura/factura.component';
 import { CreateInvoiceComponent } from './components/factura/create-invoice/create-invoice.component';
 import { IndexInvoiceComponent } from './components/factura/index-invoice/index-invoice.component';
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -55,7 +55,7 @@ import { DatePipe } from '@angular/common';
     HttpClientModule,
     routing
   ],
-  providers: [DatePipe],
+  providers: [DatePipe,CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
