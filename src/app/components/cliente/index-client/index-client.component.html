@@ -37,7 +37,7 @@
                                         <span class="text-muted pt-2 font-size-sm d-block">Listado completos de todos los clientes</span></h3>
                                 </div>
                                 <div class="card-toolbar">
-                                    <a [routerLink]="['/cliente/create']" class="btn btn-info"><span class="svg-icon menu-icon">
+                                    <a [routerLink]="['/cliente/create']" class="btn btn-success"><span class="svg-icon menu-icon">
                                         <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                             <defs></defs>
                                             <g id="Stockholm-icons-/-Communication-/-Add-user" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -58,9 +58,9 @@
                                             <div class="row align-items-center">
                                                 <div class="col-md-6 my-2 my-md-0">
                                                     <div class="input-group">
-                                                        <input type="text" class="form-control" placeholder="Busqueda general" name="filtro">
+                                                        <input type="text" class="form-control" placeholder="Busqueda general" name="filtro" [(ngModel)]="filtro">
                                                         <div class="input-group-append">
-                                                            <button class="btn btn-primary" type="button"><svg width="24px" height="15px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                            <button (click)="filtrarClientes()" class="btn btn-primary" type="button"><svg width="24px" height="15px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                                                 <g id="Stockholm-icons-/-General-/-Search" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                                     <rect id="bound" x="0" y="0" width="24" height="24"></rect>
                                                                     <path d="M14.2928932,16.7071068 C13.9023689,16.3165825 13.9023689,15.6834175 14.2928932,15.2928932 C14.6834175,14.9023689 15.3165825,14.9023689 15.7071068,15.2928932 L19.7071068,19.2928932 C20.0976311,19.6834175 20.0976311,20.3165825 19.7071068,20.7071068 C19.3165825,21.0976311 18.6834175,21.0976311 18.2928932,20.7071068 L14.2928932,16.7071068 Z" id="Path-2" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>
@@ -97,27 +97,27 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <td class="pl-0 py-5">
-                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">#1</span>
+                                                    <tr *ngFor="let cliente of clientes">
+                                                        <td class="pl-7 py-5">
+                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">#{{ cliente.idCliente }}</span>
                                                         </td>
                                                         <td>
-                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">1151963148</span>
+                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ cliente.identificacion }}</span>
                                                         </td>
                                                         <td>
-                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">Camilo bellnavis</span>
+                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ cliente.nombre }}</span>
                                                         </td>
                                                         <td>
-                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">Carrera 48a 12b04</span>
+                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ cliente.direccion }}</span>
                                                         </td>
                                                         <td>
-                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">camilonavis@hotmail.com</span>
+                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ cliente.correo }}</span>
                                                         </td>
                                                         <td>
-                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">Si</span>
+                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ cliente.activo }}</span>
                                                         </td>
                                                         <td>
-                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">10/01/2024</span>
+                                                            <span class="text-dark-75 font-weight-bolder d-block font-size-lg">{{ cliente.fechaCreacion }}</span>
                                                         </td>
 
 
@@ -133,8 +133,11 @@
                                                                     <a style="cursor: pointer;" class="dropdown-item" data-toggle="modal" [attr.data-target]="'#delete-'+ 1">
                                                                         <i class="icon-1x text-dark-50 flaticon2-check-mark"></i> &nbsp; Activar
                                                                     </a>
-                                                                    <a class="dropdown-item" [routerLink]="['/cliente', 1]">
+                                                                    <a class="dropdown-item" [routerLink]="['/cliente', cliente.idCliente]">
                                                                         <i class="icon-1x text-dark-50 flaticon2-edit"></i> &nbsp; Editar
+                                                                    </a>
+                                                                    <a class="dropdown-item" (click)="delete(cliente.idCliente)">
+                                                                        <i class="icon-1x text-dark-50 flaticon-delete"></i> &nbsp; Eliminar
                                                                     </a>
 
                                                                 </div>

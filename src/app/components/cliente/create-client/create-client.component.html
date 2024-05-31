@@ -45,7 +45,7 @@
                                 <div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
                                     <div class="col-xl-12 col-xxl-10">
                                         <!--begin::Wizard Form-->
-                                        <form class="form" id="kt_form" #registroForm="ngForm">
+                                        <form class="form" id="kt_form" #registroForm="ngForm" (ngSubmit)="registrar(registroForm)">
                                             <div class="row justify-content-center">
                                                 <div class="col-xl-9">
                                                     <!--begin::Wizard Step 1-->
@@ -54,9 +54,9 @@
 
                                                         <!--begin::Group-->
                                                         <div class="form-group row">
-                                                            <label class="col-xl-3 col-lg-3 col-form-label">Dni (*)</label>
+                                                            <label class="col-xl-3 col-lg-3 col-form-label">Identificación (*)</label>
                                                             <div class="col-lg-9 col-xl-9">
-                                                                <input required="true" class="form-control form-control-solid form-control-lg" name="nombres" type="text" placeholder="Nombres" />
+                                                                <input required="true" class="form-control form-control-solid form-control-lg" name="identificacion" [(ngModel)]="cliente.identificacion" type="text" placeholder="Identificación" />
                                                             </div>
                                                         </div>
                                                         <!--end::Group-->
@@ -64,7 +64,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-xl-3 col-lg-3 col-form-label">Nombre (*)</label>
                                                             <div class="col-lg-9 col-xl-9">
-                                                                <input required="true" class="form-control form-control-solid form-control-lg" name="apellidos" type="text" placeholder="Apellidos" />
+                                                                <input required="true" class="form-control form-control-solid form-control-lg" name="nombre" [(ngModel)]="cliente.nombre" type="text" placeholder="Nombre" />
                                                             </div>
                                                         </div>
                                                         <!--end::Group-->
@@ -72,7 +72,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-xl-3 col-lg-3 col-form-label">Dirección (*)</label>
                                                             <div class="col-lg-9 col-xl-9">
-                                                                <input required="true" class="form-control form-control-solid form-control-lg" name="apellidos" type="text" placeholder="Apellidos" />
+                                                                <input required="true" class="form-control form-control-solid form-control-lg" name="direccion" [(ngModel)]="cliente.direccion" type="text" placeholder="Dirección" />
                                                             </div>
                                                         </div>
                                                         <!--end::Group-->
@@ -80,7 +80,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-xl-3 col-lg-3 col-form-label">Fecha de Creacion (*)</label>
                                                             <div class="col-lg-9 col-xl-9">
-                                                                <input required="true" class="form-control form-control-solid form-control-lg" name="fecha" type="date" />
+                                                                <input disabled="true" required="true" class="form-control form-control-solid form-control-lg" name="fecha" [(ngModel)]="cliente.fechaCreacion" type="date" placeholder="Fecha Creación" />
                                                             </div>
                                                         </div>
                                                         <!--end::Group-->
@@ -88,7 +88,7 @@
                                                         <div class="form-group row">
                                                             <label class="col-xl-3 col-lg-3 col-form-label">Correo eletrónico (*)</label>
                                                             <div class="col-lg-9 col-xl-9">
-                                                                <input required="true" class="form-control form-control-solid form-control-lg" name="email" type="email" placeholder="Correo eletrónico" />
+                                                                <input required="true" class="form-control form-control-solid form-control-lg" name="correo" [(ngModel)]="cliente.correo" type="email" placeholder="Correo eletrónico" />
                                                             </div>
                                                         </div>
                                                         <!--end::Group-->
@@ -96,10 +96,10 @@
                                                         <div class="form-group row">
                                                             <label class="col-xl-3 col-lg-3 col-form-label">Activo (*)</label>
                                                             <div class="col-lg-9 col-xl-9">
-                                                                <select required="true" name="genero" class="form-control form-control-solid form-control-lg">
-                                                                    <option value="" selected disabled>Seleccionar</option>
-                                                                    <option value="Si">Si</option>
-                                                                    <option value="No">No</option>
+                                                                <select required="true" name="activo" [(ngModel)]="cliente.activo" class="form-control form-control-solid form-control-lg">
+                                                                    <option [ngValue]="undefined" selected disabled>Seleccionar...</option>
+                                                                    <option [ngValue]="1">Si</option>
+                                                                    <option [ngValue]="0">No</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -113,8 +113,8 @@
                                                             <a class="btn btn-light-primary font-weight-bolder px-9 py-4" [routerLink]="['/cliente']">Regresar</a>
                                                         </div>
                                                         <div>
-                                                            <button type="submit" class="btn btn-success font-weight-bolder px-9 py-4">Registrar</button>
-                                                            <button class="btn btn-success font-weight-bolder px-9 py-4" type="button" disabled>
+                                                            <button *ngIf="!btn_registrar" type="submit" class="btn btn-success font-weight-bolder px-9 py-4">Registrar</button>
+                                                            <button *ngIf="btn_registrar" class="btn btn-success font-weight-bolder px-9 py-4" type="button" disabled>
                                                                 <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                                                                 <span role="status">Registrando...</span>
                                                             </button>

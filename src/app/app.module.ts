@@ -1,9 +1,10 @@
 //Modules
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { routing } from './app.routing';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { routing } from './app.routing';
 
 //Components
 import { AppComponent } from './app.component';
@@ -24,6 +25,7 @@ import { IndexProductComponent } from './components/producto/index-product/index
 import { FacturaComponent } from './components/factura/factura.component';
 import { CreateInvoiceComponent } from './components/factura/create-invoice/create-invoice.component';
 import { IndexInvoiceComponent } from './components/factura/index-invoice/index-invoice.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -50,9 +52,10 @@ import { IndexInvoiceComponent } from './components/factura/index-invoice/index-
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
     routing
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
