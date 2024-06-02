@@ -87,7 +87,7 @@
                                         <span class="text-muted pt-2 font-size-sm d-block">Datos Producto</span></h3>
                                 </div>
                                 <div class="card-toolbar">
-                                    <button [disabled]="cantidadProducto > producto.inventario" class="btn btn-success" data-toggle="modal" [attr.data-target]="'#crearproducto'">
+                                    <button [disabled]="cantidadProducto > producto.inventario || producto.idProducto == undefined" class="btn btn-primary" (click)="agregarCarrito(producto)">
                                         <span class="svg-icon menu-icon">
                                             <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                                 <g id="Stockholm-icons-/-Shopping-/-Gift" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -123,7 +123,7 @@
                                         <label *ngIf="existProduct" style="color: #02ae21;">Precio x unidad.</label>
                                     </div>
                                     <div>
-                                        <input [disabled]="!existProduct" required="true" class="form-control form-control-solid form-control-lg" name="cantidad" type="number" [(ngModel)]="cantidadProducto" [defaultValue]="0" [min]="1" placeholder="Cantidad" />
+                                        <input [disabled]="!existProduct" required="true" class="form-control form-control-solid form-control-lg" name="cantidad" type="number" [(ngModel)]="cantidadProducto" [defaultValue]="1" [min]="1" placeholder="Cantidad" />
                                         <label *ngIf="cantidadProducto > producto.inventario" class="text-danger">
                                             La cantidad supera el stock
                                           </label>
@@ -137,6 +137,7 @@
                                         <span class="text-muted pt-2 font-size-sm d-block">Detalle</span></h3>
                                 </div>
                             </div>
+
                             <div class="card-body">
                                 <div style="display: flex;
                                 justify-content: space-between;">
@@ -144,22 +145,61 @@
                                     height: auto;
                                     width: 72pc;
                                     border-radius: 25px;">
-                                        <table>
+                                        <table *ngIf="isEmptyCart">
                                             <thead>
                                                 <tr class="text-left text-uppercase">
                                                     <th style="min-width: 250px" class="pl-7">
                                                         <span class="text-dark-75">Cod Producto</span>
                                                     </th>
-                                                    <th style="min-width: 100px">Nombre Producto</th>
-                                                    <th style="min-width: 100px">Precio</th>
-                                                    <th style="min-width: 100px">Cantidad</th>
-                                                    <th style="min-width: 100px">Acciones</th>
+                                                    <th style="min-width: 250px">Nombre Producto</th>
+                                                    <th style="min-width: 250px">Precio</th>
+                                                    <th style="min-width: 250px">Cantidad</th>
+                                                    <th style="min-width: 250px">Acciones</th>
 
                                                     <th style="min-width: 80px"></th>
                                                 </tr>
+
                                                 <tr class="text-left text-uppercase">
-                                                    <th style="min-width: 250px; color: #c50000;" class="pl-7">
+                                                    <th style="min-width: 250px; color: #c50000;" class="pl-7" colspan="6">
                                                         No hay productos registrados...
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <table *ngIf="!isEmptyCart">
+                                            <thead>
+                                                <tr class="text-left text-uppercase">
+                                                    <th style="min-width: 250px" class="pl-7">
+                                                        <span class="text-dark-75">Cod Producto</span>
+                                                    </th>
+                                                    <th style="min-width: 250px">Nombre Producto</th>
+                                                    <th style="min-width: 250px">Precio</th>
+                                                    <th style="min-width: 250px">Cantidad</th>
+                                                    <th style="min-width: 250px">Acciones</th>
+
+                                                    <th style="min-width: 80px"></th>
+                                                </tr>
+
+                                                <tr class="text-left text-uppercase" *ngFor="let productoCarrito of productosCarrito">
+
+                                                    <th style="min-width: 250px" class="pl-7">{{ productoCarrito.codigo }}</th>
+                                                    <th style="min-width: 250px">{{ productoCarrito.nombre }}</th>
+                                                    <th style="min-width: 250px">${{ productoCarrito.precio }}</th>
+                                                    <th style="min-width: 250px">{{ productoCarrito.cantidad }}</th>
+                                                    <th style="min-width: 250px">
+                                                        <button class="btn btn-danger" (click)="quitarCarrito(productoCarrito)">
+                                                            <span class="svg-icon menu-icon">
+                                                                <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                                                    <defs></defs>
+                                                                    <g id="Stockholm-icons-/-General-/-Trash" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                        <rect id="bound" x="0" y="0" width="24" height="24"></rect>
+                                                                        <path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" id="round" fill="#000000" fill-rule="nonzero"></path>
+                                                                        <path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" id="Shape" fill="#000000" opacity="0.3"></path>
+                                                                    </g>
+                                                                </svg>
+                                                            </span>
+                                                        Eliminar
+                                                        </button>
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -168,6 +208,44 @@
                                 </div>
 
                             </div>
+
+                            <div class="card-body">
+                                <div style="display: flex;
+                                justify-content: space-between;">
+                                    <div style="border: solid;
+                                    height: auto;
+                                    width: 20pc;
+                                    border-radius: 25px;">
+                                        <table>
+                                            <thead>
+                                                <tr class="text-left text-uppercase">
+                                                    <th style="min-width: 250px" class="pl-7">
+                                                        <span class="text-dark-75">*Procentaje de impuesto usado: 12%</span>
+                                                    </th>
+                                                </tr>
+
+                                                <tr class="text-left text-uppercase">
+                                                    <th style="min-width: 250px;" class="pl-7">
+                                                        Subtotal: ${{ valorCarrito.subTotal}}
+                                                    </th>
+                                                </tr>
+                                                <tr class="text-left text-uppercase">
+                                                    <th style="min-width: 250px;" class="pl-7">
+                                                        IGV: {{ valorCarrito.impuesto}} %
+                                                    </th>
+                                                </tr>
+                                                <tr class="text-left text-uppercase">
+                                                    <th style="min-width: 250px;" class="pl-7">
+                                                        Total: ${{ valorCarrito.total}}
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+
                             <div class="card-header flex-wrap border-0 pt-6 pb-0">
                                 <div class="card-title">
                                     <h3 class="card-label">
@@ -286,7 +364,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="crearproducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="crearproducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -299,41 +377,31 @@
             <form id="kt_form" #registroForm="ngForm">
                 <div class="row justify-content-center">
                     <div class="col-xl-9">
-                        <!--begin::Wizard Step 1-->
                         <div class="my-5 step" data-wizard-type="step-content" data-wizard-state="current">
-                            <!--begin::Group-->
                             <div class="form-group row">
                                 <label class="col-xl-4 col-lg-4 col-form-label">Código(*)</label>
                                 <div class="col-lg-8 col-xl-8">
                                     <input required="true" class="form-control form-control-solid form-control-lg" name="identificacion" type="text" placeholder="Identificación" />
                                 </div>
                             </div>
-                            <!--end::Group-->
-                            <!--begin::Group-->
                             <div class="form-group row">
                                 <label class="col-xl-4 col-lg-4 col-form-label">Nombre(*)</label>
                                 <div class="col-lg-8 col-xl-8">
                                     <input required="true" class="form-control form-control-solid form-control-lg" name="nombre" type="text" placeholder="Nombre" />
                                 </div>
                             </div>
-                            <!--end::Group-->
-                            <!--begin::Group-->
                             <div class="form-group row">
                                 <label class="col-xl-4 col-lg-4 col-form-label">Precio(*)</label>
                                 <div class="col-lg-8 col-xl-8">
                                     <input required="true" class="form-control form-control-solid form-control-lg" name="direccion" type="text" placeholder="Dirección" />
                                 </div>
                             </div>
-                            <!--end::Group-->
-                            <!--begin::Group-->
                             <div class="form-group row">
                                 <label class="col-xl-5 col-lg-5 col-form-label">Stock (*)</label>
                                 <div class="col-lg-7 col-xl-7">
                                     <input required="true" class="form-control form-control-solid form-control-lg" name="correo" type="email" placeholder="Correo eletrónico" />
                                 </div>
                             </div>
-                            <!--end::Group-->
-                            <!--begin::Group-->
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 col-form-label">Activo (*)</label>
                                 <div class="col-lg-9 col-xl-9">
@@ -344,29 +412,21 @@
                                         </select>
                                 </div>
                             </div>
-                            <!--end::Group-->
-                            <!--begin::Group-->
                             <div class="form-group row">
                                 <label class="col-xl-6 col-lg-6 col-form-label">Fecha de Creación (*)</label>
                                 <div class="col-lg-6 col-xl-6">
                                     <input disabled="true" required="true" class="form-control form-control-solid form-control-lg" name="fecha" type="date" placeholder="Fecha Creación" />
                                 </div>
                             </div>
-                            <!--end::Group-->
+
                         </div>
-                        <!--end::Wizard Step 1-->
 
                     </div>
                 </div>
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success font-weight-bold">Guardar</button>
-
-                <!-- <button class="btn btn-success" type="button" disabled>
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Enviando...
-                </button> -->
             </div>
         </div>
     </div>
-</div>
+</div> -->
