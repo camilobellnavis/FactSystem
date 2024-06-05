@@ -1,13 +1,18 @@
 import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CabFactura } from 'src/app/interfaces/cabfactura';
 import { Cliente } from 'src/app/interfaces/cliente';
 import { DetFactura } from 'src/app/interfaces/detfactura';
 import { Producto } from 'src/app/interfaces/producto';
-import { ProductoCarrito } from 'src/app/interfaces/productoCarrito';
+import { ProductoCarrito } from 'src/app/interfaces/productocarrito';
 import { ValoresCarrito } from 'src/app/interfaces/valorescarrito';
+import { CabFacturaService } from 'src/app/services/cabfactura.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { ProductService } from 'src/app/services/product.service';
+declare var $: any;
+
+
 
 @Component({
   selector: 'app-create-invoice',
@@ -15,10 +20,12 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./create-invoice.component.css']
 })
 export class CreateInvoiceComponent implements OnInit {
-  public clientes:  Array<any> = []; 
-  public productos:  Array<any> = []; 
-  idCliente: string = '';
-  idProducto:string = '';
+  public clientes: Array<any> = [];
+  public productos: Array<any> = [];
+  public productosCarrito = Array<ProductoCarrito>();
+  public detallesFacturas = Array<DetFactura>();
+  public idCliente = '';
+  public idProducto = '';
   public load_data = false;
   public data = false;
   public existCustomer = false;
@@ -28,33 +35,33 @@ export class CreateInvoiceComponent implements OnInit {
   public cantidadProducto = 1;
   public ultimoIdProducto = 0;
   public ultimoIdDetalle = 0;
-  public productosCarrito = Array<ProductoCarrito>();
-  public detallesFacturas = Array<DetFactura>();
+  public ultimoNumFactura = 0;
+  public ultimoNumDetalleFactura = 0;
 
 
-  public cliente:Cliente = {
+  public cliente: Cliente = {
     idCliente: 0,
-    nombre:'',
-    identificacion:'',
-    correo:'',
-    direccion:'',
-    fechaCreacion:'',
+    nombre: '',
+    identificacion: '',
+    correo: '',
+    direccion: '',
+    fechaCreacion: '',
     activo: undefined
   };
 
   public producto: Producto = {
     activo: undefined,
-    codigo:'',
+    codigo: '',
     fechaCreacion: '',
-    nombre:'',
+    nombre: '',
     precio: undefined,
     inventario: 1
   };
 
-  public productoCarrito: ProductoCarrito = {  
+  public productoCarrito: ProductoCarrito = {
     idProductoCarrito: 0,
     codigo: '',
-    cantidad:0,
+    cantidad: 0,
     nombre: '',
     precio: 0
   };
@@ -66,7 +73,7 @@ export class CreateInvoiceComponent implements OnInit {
   };
 
   public detalleFactura: DetFactura = {
-    codigoProducto: '',
+    codigoProducto: 0,
     cantidad: 0,
     cabFactura: 0
   }
@@ -75,118 +82,178 @@ export class CreateInvoiceComponent implements OnInit {
     numFactura: 0,
     impuesto: 0,
     dniCliente: '',
-    subtotal: 0,
-    total: 0
+    subTotal: 0,
+    total: 0,
+    detFacturas: []
   };
 
 
-  constructor(private _clienteService: CustomerService, private _productoService: ProductService,private _currencyPipe : CurrencyPipe) { }
+  constructor(private _clienteService: CustomerService,
+    private _productoService: ProductService,
+    private _cabfacturaService: CabFacturaService,
+    private _router: Router,
+    private _currencyPipe: CurrencyPipe) { }
 
   ngOnInit(): void {
     this.getCustomers();
     this.getProducts();
-    console.log("Productos",this.productosCarrito);
+    this.getLastInvoiceId();
   }
-  
 
-  getCustomers(){
-    this._clienteService.getAll().subscribe(clientes => {
-      console.log(clientes);
+
+  public async getCustomers() {
+
+    await this._clienteService.getAll().subscribe(clientes => {
       this.clientes = clientes.data;
-    }); 
-  }
-  
-  getProducts(){
-    this._productoService.getAll().subscribe(productos => {
-      console.log(productos);
-      this.productos = productos.data;
-    }); 
+    });
+
   }
 
-  validarCliente(id: any){
-    console.log(id);
-    this._clienteService.getById(id).subscribe(
+  public async getProducts() {
+
+    await this._productoService.getAll().subscribe(productos => {
+      this.productos = productos.data;
+    });
+
+  }
+
+  public async validarCliente(id: any) {
+
+    await this._clienteService.getById(id).subscribe(
       response => {
-        if (response.data != undefined){
+        if (response.data != undefined) {
           this.cliente = response.data;
           this.existCustomer = true;
         }
-        else{
+        else {
           this.data = false;
           this.load_data = false;
           this.existCustomer = false;
         }
-      }        
+      }
     );
-  
+
   }
 
-  validarProducto(id: any){
-    console.log(id);
-    this._productoService.getById(id).subscribe(
+  public async validarProducto(id: any) {
+
+    await this._productoService.getById(id).subscribe(
       response => {
-        if (response.data != undefined){
+        if (response.data != undefined) {
           this.producto = response.data;
           this.existProduct = true;
           this.transformAmount();
         }
-        else{
+        else {
           this.data = false;
           this.load_data = false;
           this.existProduct = false;
         }
-      }        
+      }
     );
-    
-  }
-  
-  transformAmount(){
-    this.precioTransform = this.producto.precio?.toString() ?? '';
-    this.precioTransform = this._currencyPipe.transform(this.precioTransform, '$') ?? '';
+
   }
 
-  agregarCarrito(producto: Producto){
+  public transformAmount() {
+
+    this.precioTransform = this.producto.precio?.toString() ?? '';
+    this.precioTransform = this._currencyPipe.transform(this.precioTransform, '$') ?? '';
+
+  }
+
+  public agregarCarrito(producto: Producto) {
+
     this.ultimoIdProducto++;
-    this.ultimoIdDetalle++;
     this.productoCarrito = {
+      idProducto: producto.idProducto,
       idProductoCarrito: this.ultimoIdProducto,
-      codigo:producto.codigo,
+      codigo: producto.codigo,
       cantidad: this.cantidadProducto,
       nombre: producto.nombre,
       precio: producto.precio ?? 0
     };
+
     this.isEmptyCart = false,
     this.valorCarrito.subTotal += this.productoCarrito.precio * this.productoCarrito.cantidad;
-    this.valorCarrito.total = this.valorCarrito.subTotal + ((this.valorCarrito.subTotal*this.valorCarrito.impuesto)/100);
-    this.productosCarrito.push(this.productoCarrito); 
-    this.detalleFactura = {
-      id: this.ultimoIdProducto,
-      cabFactura: 1,
-      cantidad: this.productoCarrito.cantidad,
-      codigoProducto: this.productoCarrito.codigo
-    };
-    this.detallesFacturas.push(this.detalleFactura); 
+    this.valorCarrito.total = this.valorCarrito.subTotal + ((this.valorCarrito.subTotal * this.valorCarrito.impuesto) / 100);
+    this.productosCarrito.push(this.productoCarrito);
+
   }
 
-  quitarCarrito(producto: ProductoCarrito){
+  public quitarCarrito(producto: ProductoCarrito) {
+
     this.valorCarrito.subTotal -= producto.precio * producto.cantidad;
-    this.valorCarrito.total = this.valorCarrito.subTotal + ((this.valorCarrito.subTotal*this.valorCarrito.impuesto)/100);
+    this.valorCarrito.total = this.valorCarrito.subTotal + ((this.valorCarrito.subTotal * this.valorCarrito.impuesto) / 100);
     this.productosCarrito = this.productosCarrito.filter(productoc => productoc.idProductoCarrito != producto.idProductoCarrito);
-    this.detallesFacturas = this.detallesFacturas.filter(productoc => productoc.id != producto.idProductoCarrito);
-   
+    this.productosCarrito.length === 0 ? this.isEmptyCart = true : false
 
-    console.log("Facturas",this.detallesFacturas);
   }
 
-  // getDetalleFactura(){
-  //   this._productoService.getById().subscribe(
-  //     response => this.ultimoIdDetalle = response.idProducto
-  //   )
-  // }
 
-  generarFactura(){
-    
+  public async generarFactura() {
+
+    this.productosCarrito.forEach(element => {
+      this.detalleFactura = {
+        cantidad: element.cantidad,
+        codigoProducto: element.idProducto
+      };
+      this.detallesFacturas.push(this.detalleFactura);
+    });
+
+
+    this.factura = {
+      numFactura: this.ultimoNumFactura,
+      impuesto: this.valorCarrito.impuesto,
+      dniCliente: this.cliente.identificacion,
+      subTotal: this.valorCarrito.subTotal,
+      total: this.valorCarrito.total,
+      detFacturas: this.detallesFacturas
+    }
+
+    await this._cabfacturaService.create(this.factura).subscribe(
+      response => {
+        if (response.data == undefined) {
+          $.notify(response.message, {
+            type: 'danger',
+            spacing: 10,
+            timer: 2000,
+            placement: {
+              from: 'top',
+              align: 'right'
+            },
+            delay: 1000,
+            animate: {
+              enter: 'animated ' + 'bounce',
+              exit: 'animated ' + 'bounce'
+            }
+          });
+        }
+        else {
+          setTimeout(() => {
+          }, 10000);
+          $.notify('Se ha registrado la factura correctamente', {
+            type: 'success',
+            spacing: 10,
+            timer: 2000,
+            placement: {
+              from: 'top',
+              align: 'right'
+            },
+            delay: 1000,
+            animate: {
+              enter: 'animated ' + 'bounce',
+              exit: 'animated ' + 'bounce'
+            }
+          });
+          this._router.navigate(['/factura'])
+        }
+      });
   }
-  
+
+  public getLastInvoiceId() {
+    this._cabfacturaService.getLastId().subscribe(response => {
+      this.ultimoNumFactura = response.data + 1;
+    });
+  }
 
 }

@@ -1,4 +1,5 @@
 export interface ProductoCarrito {
+    idProducto?:number;
     idProductoCarrito:number;
     codigo:string;
     nombre:string;

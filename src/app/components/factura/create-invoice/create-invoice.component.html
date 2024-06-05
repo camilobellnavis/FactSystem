@@ -56,7 +56,7 @@
                                 <div style="display: flex;
                                 justify-content: space-between;">
                                     <div>
-                                        <input style="width: 15pc;" required="true" class="form-control form-control-solid form-control-lg" name="codigo" type="text" placeholder="Código" />
+                                        <input [disabled]="true" style="width: 15pc;" required="true" [(ngModel)]="ultimoNumFactura" class="form-control form-control-solid form-control-lg" name="codigo" type="text" placeholder="Código" />
                                     </div>
                                     <div>
                                         <select style="width: 15pc;" (change)="validarCliente(idCliente)" required="true" name="cliente" [(ngModel)]="idCliente" class="form-control form-control-solid form-control-lg">
@@ -67,16 +67,16 @@
                                         </select>
                                     </div>
                                     <div>
-                                        <input [disabled]="existCustomer" required="true" [(ngModel)]="cliente.identificacion" class="form-control form-control-solid form-control-lg" name="dni" type="text" placeholder="Numero de documento" />
+                                        <input [disabled]="true" required="true" [(ngModel)]="cliente.identificacion" class="form-control form-control-solid form-control-lg" name="dni" type="text" placeholder="Numero de documento" />
                                     </div>
                                     <div>
-                                        <input [disabled]="existCustomer" required="true" [(ngModel)]="cliente.nombre" class="form-control form-control-solid form-control-lg" name="nombres" type="text" placeholder="Nombres" />
+                                        <input [disabled]="true" required="true" [(ngModel)]="cliente.nombre" class="form-control form-control-solid form-control-lg" name="nombres" type="text" placeholder="Nombres" />
                                     </div>
                                 </div>
                                 <div style="    display: flex;
                                 margin-top: 2pc;">
                                     <div>
-                                        <input [disabled]="existCustomer" style="width: 15pc;" [(ngModel)]="cliente.correo" required="true" class="form-control form-control-solid form-control-lg" name="correo" type="text" placeholder="Correo" />
+                                        <input [disabled]="true" style="width: 15pc;" [(ngModel)]="cliente.correo" required="true" class="form-control form-control-solid form-control-lg" name="correo" type="text" placeholder="Correo" />
                                     </div>
                                 </div>
                             </div>
@@ -116,10 +116,10 @@
 
                                     </div>
                                     <div>
-                                        <input [disabled]="existProduct" required="true" class="form-control form-control-solid form-control-lg" [(ngModel)]="producto.nombre" name="nombreprod" type="text" placeholder="Nombre producto" />
+                                        <input [disabled]="true" required="true" class="form-control form-control-solid form-control-lg" [(ngModel)]="producto.nombre" name="nombreprod" type="text" placeholder="Nombre producto" />
                                     </div>
                                     <div>
-                                        <input id="precioInput" [disabled]="existProduct" required="true" class="form-control form-control-solid form-control-lg" [(ngModel)]="precioTransform" [value]="precioTransform" name="precio" type="text" placeholder="Precio" />
+                                        <input id="precioInput" [disabled]="true" required="true" class="form-control form-control-solid form-control-lg" [(ngModel)]="precioTransform" [value]="precioTransform" name="precio" type="text" placeholder="Precio" />
                                         <label *ngIf="existProduct" style="color: #02ae21;">Precio x unidad.</label>
                                     </div>
                                     <div>
@@ -220,7 +220,7 @@
                                             <thead>
                                                 <tr class="text-left text-uppercase">
                                                     <th style="min-width: 250px" class="pl-7">
-                                                        <span class="text-dark-75">*Procentaje de impuesto usado: 12%</span>
+                                                        <span class="text-dark-75">*Porcentaje de impuesto usado: 12%</span>
                                                     </th>
                                                 </tr>
 
@@ -252,7 +252,7 @@
                                         <span class="text-muted pt-2 font-size-sm d-block"></span></h3>
                                 </div>
                                 <div class="card-toolbar">
-                                    <button [disabled]="cantidadProducto > producto.inventario" class="btn btn-primary"> 
+                                    <button (click)="generarFactura()" [disabled]="cantidadProducto > producto.inventario" class="btn btn-primary"> 
                                         <span class="svg-icon menu-icon">
                                             <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                                 <g id="Stockholm-icons-/-Files-/-Downloaded-file" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

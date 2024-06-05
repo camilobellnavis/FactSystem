@@ -25,7 +25,6 @@ export class IndexClientComponent implements OnInit {
 
   getInfo(){
     this._clienteService.getAll().subscribe(clientes => {
-      console.log(clientes);
       this.clientes = clientes.data;
       this.clientesConstantes = this.clientes;
 
