@@ -17,24 +17,28 @@ export class CustomerService {
   }
 
   
-  getAll():Observable<any>{
-    let headers = new HttpHeaders({'Content-Type':'application/json'});
+  getAll(token:any):Observable<any>{
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
     return this._http.get<any>(`${this.url}Clientes/GetAll`,{headers:headers})
   }
 
-  getById(id:number){
-    return this._http.get<any>(`${this.url}Clientes/Get/${id}`)
+  getById(id:number,token:any){
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
+    return this._http.get<any>(`${this.url}Clientes/Get/${id}`,{headers:headers})
   }
 
-  update(id:number,customer:Cliente){
-    return this._http.put<any>(`${this.url}Clientes/Update/${id}`,customer)
+  update(id:number,customer:Cliente,token:any){
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
+    return this._http.put<any>(`${this.url}Clientes/Update/${id}`,customer,{headers:headers})
   }
 
-  create(customer:Cliente){
-    return this._http.post<any>(`${this.url}Clientes/Create`,customer)
+  create(customer:Cliente,token:any){
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
+    return this._http.post<any>(`${this.url}Clientes/Create`,customer,{headers:headers})
   }
 
-  delete(id:number){
-    return this._http.delete<any>(`${this.url}Clientes/Delete/${id}`)
+  delete(id:number,token:any){
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
+    return this._http.delete<any>(`${this.url}Clientes/Delete/${id}`,{headers:headers})
   }
 }

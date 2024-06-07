@@ -12,6 +12,7 @@ export class IndexProductComponent implements OnInit {
   public filtro = undefined;
   public productosConstantes: Array<any> = []; 
   public productos:  Array<any> = []; 
+  public token = localStorage.getItem('token');
 
   constructor(private _productoService: ProductService,private  _router: Router) { }
 
@@ -24,8 +25,7 @@ export class IndexProductComponent implements OnInit {
   }
 
   getInfo(){
-    this._productoService.getAll().subscribe(productos => {
-      console.log(productos);
+    this._productoService.getAll(this.token).subscribe(productos => {
       this.productos = productos.data;
       this.productosConstantes = this.productos;
 
@@ -37,9 +37,8 @@ export class IndexProductComponent implements OnInit {
   }
 
   delete(id:any){
-    this._productoService.delete(id).subscribe(
+    this._productoService.delete(id,this.token).subscribe(
       response =>{
-      console.log(response);
       this.initData();
     });
   }
@@ -47,7 +46,6 @@ export class IndexProductComponent implements OnInit {
   filtrarProductos(){
     if (this.filtro) {
       var term = new RegExp(this.filtro, 'i');
-      console.log("Termino::",term);
       this.productos = this.productosConstantes.filter(item=> term.test(item.nombre));
     } else {
       this.productos = this.productosConstantes;

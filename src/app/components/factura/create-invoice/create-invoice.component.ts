@@ -37,6 +37,7 @@ export class CreateInvoiceComponent implements OnInit {
   public ultimoIdDetalle = 0;
   public ultimoNumFactura = 0;
   public ultimoNumDetalleFactura = 0;
+  public token = localStorage.getItem('token');
 
 
   public cliente: Cliente = {
@@ -103,7 +104,7 @@ export class CreateInvoiceComponent implements OnInit {
 
   public async getCustomers() {
 
-    await this._clienteService.getAll().subscribe(clientes => {
+    await this._clienteService.getAll(this.token).subscribe(clientes => {
       this.clientes = clientes.data;
     });
 
@@ -111,7 +112,7 @@ export class CreateInvoiceComponent implements OnInit {
 
   public async getProducts() {
 
-    await this._productoService.getAll().subscribe(productos => {
+    await this._productoService.getAll(this.token).subscribe(productos => {
       this.productos = productos.data;
     });
 
@@ -119,7 +120,7 @@ export class CreateInvoiceComponent implements OnInit {
 
   public async validarCliente(id: any) {
 
-    await this._clienteService.getById(id).subscribe(
+    await this._clienteService.getById(id,this.token).subscribe(
       response => {
         if (response.data != undefined) {
           this.cliente = response.data;
@@ -137,7 +138,7 @@ export class CreateInvoiceComponent implements OnInit {
 
   public async validarProducto(id: any) {
 
-    await this._productoService.getById(id).subscribe(
+    await this._productoService.getById(id,this.token).subscribe(
       response => {
         if (response.data != undefined) {
           this.producto = response.data;
@@ -210,7 +211,7 @@ export class CreateInvoiceComponent implements OnInit {
       detFacturas: this.detallesFacturas
     }
 
-    await this._cabfacturaService.create(this.factura).subscribe(
+    await this._cabfacturaService.create(this.factura,this.token).subscribe(
       response => {
         if (response.data == undefined) {
           $.notify(response.message, {
@@ -251,7 +252,7 @@ export class CreateInvoiceComponent implements OnInit {
   }
 
   public getLastInvoiceId() {
-    this._cabfacturaService.getLastId().subscribe(response => {
+    this._cabfacturaService.getLastId(this.token).subscribe(response => {
       this.ultimoNumFactura = response.data + 1;
     });
   }

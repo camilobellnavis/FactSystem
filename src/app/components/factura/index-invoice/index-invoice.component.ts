@@ -11,6 +11,7 @@ export class IndexInvoiceComponent implements OnInit {
   public filtro = undefined;
   public facturasConstantes: Array<any> = []; 
   public facturas:  Array<CabFactura> = []; 
+  public token = localStorage.getItem('token');
 
   constructor(private _cabfacturaService: CabFacturaService) { }
 
@@ -23,8 +24,7 @@ export class IndexInvoiceComponent implements OnInit {
   }
 
   getInfo(){
-    this._cabfacturaService.getAll().subscribe(invoice => {
-      console.log(invoice);
+    this._cabfacturaService.getAll(this.token).subscribe(invoice => {
       this.facturas = invoice.data;
       this.facturasConstantes = this.facturas;
 
@@ -32,7 +32,6 @@ export class IndexInvoiceComponent implements OnInit {
   }
 
   filtrarFacturas(){
-    console.log(this.filtro);
     if (this.filtro) {
       var term = new RegExp(this.filtro, 'i');
       this.facturas = this.facturasConstantes.filter(item=> term.test(item.numFactura));

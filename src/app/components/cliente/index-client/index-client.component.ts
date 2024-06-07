@@ -12,6 +12,7 @@ export class IndexClientComponent implements OnInit {
   public filtro = undefined;
   public clientesConstantes: Array<any> = []; 
   public clientes:  Array<any> = []; 
+  public token = localStorage.getItem('token');
 
   constructor(private _clienteService: CustomerService,private  _router: Router) { }
 
@@ -24,7 +25,7 @@ export class IndexClientComponent implements OnInit {
   }
 
   getInfo(){
-    this._clienteService.getAll().subscribe(clientes => {
+    this._clienteService.getAll(this.token).subscribe(clientes => {
       this.clientes = clientes.data;
       this.clientesConstantes = this.clientes;
 
@@ -36,9 +37,8 @@ export class IndexClientComponent implements OnInit {
   }
 
   delete(id:any){
-    this._clienteService.delete(id).subscribe(
+    this._clienteService.delete(id,this.token).subscribe(
       response =>{
-      console.log(response);
       this.initData();
     });
   }
@@ -46,7 +46,6 @@ export class IndexClientComponent implements OnInit {
   filtrarClientes(){
     if (this.filtro) {
       var term = new RegExp(this.filtro, 'i');
-      console.log("Termino::",term);
       this.clientes = this.clientesConstantes.filter(item=> term.test(item.nombre));
     } else {
       this.clientes = this.clientesConstantes;

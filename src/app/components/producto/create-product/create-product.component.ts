@@ -14,6 +14,7 @@ declare var $:any;
 export class CreateProductComponent implements OnInit {
 
   public btn_registrar = false;
+  public token = localStorage.getItem('token');
 
   public producto: Producto = {
     activo: undefined,
@@ -30,10 +31,9 @@ export class CreateProductComponent implements OnInit {
   }
   
   registrar(registroForm : any)  {
-    console.log("formulario", registroForm);
      if (registroForm.valid) {
        this.btn_registrar = true;
-       this._productoService.create(this.producto).subscribe(
+       this._productoService.create(this.producto,this.token).subscribe(
          response => {
            if (response.data == undefined) {
              $.notify(response.message, {

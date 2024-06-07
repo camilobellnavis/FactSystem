@@ -26,6 +26,7 @@ import { FacturaComponent } from './components/factura/factura.component';
 import { CreateInvoiceComponent } from './components/factura/create-invoice/create-invoice.component';
 import { IndexInvoiceComponent } from './components/factura/index-invoice/index-invoice.component';
 import { CurrencyPipe, DatePipe } from '@angular/common';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
     IndexProductComponent,
     FacturaComponent,
     CreateInvoiceComponent,
-    IndexInvoiceComponent
+    IndexInvoiceComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

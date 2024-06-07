@@ -16,29 +16,33 @@ export class DetFacturaService {
 
   }
 
-  getAll():Observable<any>{
-    let headers = new HttpHeaders({'Content-Type':'application/json'});
+  getAll(token:any):Observable<any>{
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
     return this._http.get<any>(`${this.url}DetalleFacturas/GetAll`,{headers:headers})
   }
 
-  getById(id:number){
-    return this._http.get<any>(`${this.url}DetalleFacturas/Get/${id}`)
+  getById(id:number,token:any){
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
+    return this._http.get<any>(`${this.url}DetalleFacturas/Get/${id}`,{headers:headers})
   }
 
-  update(id:number,cab:DetFactura){
-    return this._http.put<any>(`${this.url}DetalleFacturas/Update/${id}`,cab)
+  update(id:number,cab:DetFactura,token:any){
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
+    return this._http.put<any>(`${this.url}DetalleFacturas/Update/${id}`,cab,{headers:headers})
   }
 
-  create(detail:DetFactura){
-    return this._http.post<any>(`${this.url}DetalleFacturas/Create`,detail)
+  create(detail:DetFactura,token:any){
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
+    return this._http.post<any>(`${this.url}DetalleFacturas/Create`,detail,{headers:headers})
   }
 
-  delete(id:number){
-    return this._http.delete<any>(`${this.url}DetalleFacturas/Delete/${id}`)
+  delete(id:number,token:any){
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
+    return this._http.delete<any>(`${this.url}DetalleFacturas/Delete/${id}`,{headers:headers})
   }
 
-  getLastId():Observable<any>{
-    let headers = new HttpHeaders({'Content-Type':'application/json'});
+  getLastId(token:any):Observable<any>{
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
     return this._http.get<any>(`${this.url}DetalleFacturas/getLastId`,{headers:headers})
   }
 

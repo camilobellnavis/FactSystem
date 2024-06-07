@@ -13,6 +13,7 @@ declare var $:any;
 export class CreateClientComponent implements OnInit {
 
   public btn_registrar = false;
+  public token = localStorage.getItem('token');
 
   public cliente: Cliente = {
     nombre:'',
@@ -29,10 +30,9 @@ export class CreateClientComponent implements OnInit {
   }
   
   registrar(registroForm : any)  {
-    console.log("formulario", registroForm);
      if (registroForm.valid) {
        this.btn_registrar = true;
-       this._clienteService.create(this.cliente).subscribe(
+       this._clienteService.create(this.cliente,this.token).subscribe(
          response => {
            if (response.data == undefined) {
              $.notify(response.message, {

@@ -17,29 +17,33 @@ export class CabFacturaService {
   }
 
   
-  getAll():Observable<any>{
-    let headers = new HttpHeaders({'Content-Type':'application/json'});
+  getAll(token:any):Observable<any>{
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
     return this._http.get<any>(`${this.url}CabeceraFacturas/GetAll`,{headers:headers})
   }
 
-  getById(id:number){
-    return this._http.get<any>(`${this.url}CabeceraFacturas/Get/${id}`)
+  getById(id:number,token:any){
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
+    return this._http.get<any>(`${this.url}CabeceraFacturas/Get/${id}`,{headers:headers})
   }
 
-  update(id:number,cab:CabFactura){
-    return this._http.put<any>(`${this.url}CabeceraFacturas/Update/${id}`,cab)
+  update(id:number,cab:CabFactura,token:any){
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
+    return this._http.put<any>(`${this.url}CabeceraFacturas/Update/${id}`,cab,{headers:headers})
   }
 
-  create(invoice:CabFactura){
-    return this._http.post<any>(`${this.url}CabeceraFacturas/Create`,invoice)
+  create(invoice:CabFactura,token:any){
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
+    return this._http.post<any>(`${this.url}CabeceraFacturas/Create`,invoice,{headers:headers})
   }
 
-  delete(id:number){
-    return this._http.delete<any>(`${this.url}CabeceraFacturas/Delete/${id}`)
+  delete(id:number,token:any){
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
+    return this._http.delete<any>(`${this.url}CabeceraFacturas/Delete/${id}`,{headers:headers})
   }
 
-  getLastId():Observable<any>{
-    let headers = new HttpHeaders({'Content-Type':'application/json'});
+  getLastId(token:any):Observable<any>{
+    let headers = new HttpHeaders({'Content-Type':'application/json','Authorization':'Bearer '+token});
     return this._http.get<any>(`${this.url}CabeceraFacturas/getLastId`,{headers:headers})
   }
 

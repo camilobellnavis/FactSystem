@@ -11,11 +11,12 @@ import { CreateProductComponent } from './components/producto/create-product/cre
 import { EditProductComponent } from './components/producto/edit-product/edit-product.component';
 import { IndexInvoiceComponent } from './components/factura/index-invoice/index-invoice.component';
 import { CreateInvoiceComponent } from './components/factura/create-invoice/create-invoice.component';
+import { LoginComponent } from './components/login/login.component';
 
 
 const appRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
-    { path: '', component: DashboardComponent },
+    { path: '', component: LoginComponent },
     { path: 'cliente', component: IndexClientComponent },
     { path: 'cliente/create', component: CreateClientComponent},
     { path: 'cliente/:id', component: EditClientComponent },

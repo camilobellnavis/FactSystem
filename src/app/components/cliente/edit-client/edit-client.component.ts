@@ -13,6 +13,7 @@ declare var $:any;
 export class EditClientComponent implements OnInit {
 
   public id = 0;
+  public token = localStorage.getItem('token');
   public cliente:Cliente = {
     idCliente: 0,
     nombre:'',
@@ -24,7 +25,6 @@ export class EditClientComponent implements OnInit {
   };
 
   public btnActualizar = false;
-  public token = localStorage.getItem('token');
   public load_data = false;
   public data = false;
 
@@ -34,7 +34,7 @@ export class EditClientComponent implements OnInit {
     this._route.params.subscribe(params => {
       this.id = params['id'];
       this.load_data = true;
-      this._clienteService.getById(this.id).subscribe(
+      this._clienteService.getById(this.id,this.token).subscribe(
         response => {
           if (response.data != undefined){
             this.cliente = response.data;
@@ -52,10 +52,9 @@ export class EditClientComponent implements OnInit {
   }
 
   actualizar(actualizarForm : any)  {
-   console.log("formulario", actualizarForm);
     if (actualizarForm.valid) {
       this.btnActualizar = true;
-      this._clienteService.update(this.id,this.cliente).subscribe(
+      this._clienteService.update(this.id,this.cliente,this.token).subscribe(
         response => {
           if (response.data == undefined) {
             $.notify(response.message, {
