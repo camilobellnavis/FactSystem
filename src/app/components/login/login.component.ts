@@ -15,6 +15,8 @@ export class LoginComponent implements OnInit {
     contrasena: ''
   };
   public token:any = localStorage.getItem('token');
+  public btn_loguear = false;
+
 
   constructor(private _userService: UserService, private _router:Router) { }
 
@@ -60,10 +62,12 @@ export class LoginComponent implements OnInit {
       });
     }
     else{
+      this.btn_loguear = true;
       this._userService.login_admin(usuarioParaEnviar).subscribe(
         response =>{
+          console.log(response);
           if(response.data == undefined){
-            $.notify(response.message, { 
+            $.notify(response , { 
               type: 'danger',
               spacing: 10,                    
               timer: 2000,
@@ -77,12 +81,22 @@ export class LoginComponent implements OnInit {
                   exit: 'animated ' + 'bounce'
               }
             });
+            this.btn_loguear = false;
           }
           else{
+
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', JSON.stringify(response.data));
             localStorage.setItem('_id', response.data._id);
-            this._router.navigate(['/dashboard']);
+            setTimeout(() => {
+              this.btn_loguear = false;
+              this._router.navigate(['/dashboard']);
+            }, 2000);
+
+
+
+          
+            
           }
 
       });

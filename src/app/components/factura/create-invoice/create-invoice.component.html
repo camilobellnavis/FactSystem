@@ -252,7 +252,7 @@
                                         <span class="text-muted pt-2 font-size-sm d-block"></span></h3>
                                 </div>
                                 <div class="card-toolbar">
-                                    <button (click)="generarFactura()" [disabled]="cantidadProducto > producto.inventario" class="btn btn-primary"> 
+                                    <button (click)="generarFactura()" [disabled]="cantidadProducto > producto.inventario || productoCarrito.cantidad == 0 || !existCustomer" class="btn btn-primary"> 
                                         <span class="svg-icon menu-icon">
                                             <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                                                 <g id="Stockholm-icons-/-Files-/-Downloaded-file" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -290,7 +290,7 @@
                 </button>
             </div>
 
-            <form id="kt_form" #registroForm="ngForm">
+            <form id="kt_form" #registroModalForm="ngForm">
                 <div class="row justify-content-center">
                     <div class="col-xl-9">
                         <!--begin::Wizard Step 1-->
@@ -299,7 +299,7 @@
                             <div class="form-group row">
                                 <label class="col-xl-4 col-lg-4 col-form-label">Identificación(*)</label>
                                 <div class="col-lg-8 col-xl-8">
-                                    <input required="true" class="form-control form-control-solid form-control-lg" name="identificacion" type="text" placeholder="Identificación" />
+                                    <input required="true" class="form-control form-control-solid form-control-lg" [(ngModel)]="clienteModal.identificacion" name="identificacion" type="text" placeholder="Identificación" />
                                 </div>
                             </div>
                             <!--end::Group-->
@@ -307,7 +307,7 @@
                             <div class="form-group row">
                                 <label class="col-xl-4 col-lg-4 col-form-label">Nombre(*)</label>
                                 <div class="col-lg-8 col-xl-8">
-                                    <input required="true" class="form-control form-control-solid form-control-lg" name="nombre" type="text" placeholder="Nombre" />
+                                    <input required="true" class="form-control form-control-solid form-control-lg" [(ngModel)]="clienteModal.nombre" name="nombre" type="text" placeholder="Nombre" />
                                 </div>
                             </div>
                             <!--end::Group-->
@@ -315,7 +315,7 @@
                             <div class="form-group row">
                                 <label class="col-xl-4 col-lg-4 col-form-label">Dirección(*)</label>
                                 <div class="col-lg-8 col-xl-8">
-                                    <input required="true" class="form-control form-control-solid form-control-lg" name="direccion" type="text" placeholder="Dirección" />
+                                    <input required="true" class="form-control form-control-solid form-control-lg" [(ngModel)]="clienteModal.direccion" name="direccion" type="text" placeholder="Dirección" />
                                 </div>
                             </div>
                             <!--end::Group-->
@@ -323,7 +323,7 @@
                             <div class="form-group row">
                                 <label class="col-xl-6 col-lg-6 col-form-label">Fecha de Creación (*)</label>
                                 <div class="col-lg-6 col-xl-6">
-                                    <input disabled="true" required="true" class="form-control form-control-solid form-control-lg" name="fecha" type="date" placeholder="Fecha Creación" />
+                                    <input disabled="true" required="true" class="form-control form-control-solid form-control-lg" [(ngModel)]="clienteModal.fechaCreacion" name="fecha" type="date" placeholder="Fecha Creación" />
                                 </div>
                             </div>
                             <!--end::Group-->
@@ -331,7 +331,7 @@
                             <div class="form-group row">
                                 <label class="col-xl-5 col-lg-5 col-form-label">Correo eletrónico (*)</label>
                                 <div class="col-lg-7 col-xl-7">
-                                    <input required="true" class="form-control form-control-solid form-control-lg" name="correo" type="email" placeholder="Correo eletrónico" />
+                                    <input required="true" class="form-control form-control-solid form-control-lg" [(ngModel)]="clienteModal.correo" name="correo" type="email" placeholder="Correo eletrónico" />
                                 </div>
                             </div>
                             <!--end::Group-->
@@ -339,7 +339,7 @@
                             <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 col-form-label">Activo (*)</label>
                                 <div class="col-lg-9 col-xl-9">
-                                    <select required="true" name="activo" class="form-control form-control-solid form-control-lg">
+                                    <select required="true" [(ngModel)]="clienteModal.activo" name="activo" class="form-control form-control-solid form-control-lg">
                                             <option [ngValue]="undefined" selected disabled>Seleccionar...</option>
                                             <option [ngValue]="1">Si</option>
                                             <option [ngValue]="0">No</option>
@@ -354,12 +354,11 @@
                 </div>
             </form>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success font-weight-bold">Guardar</button>
-
-                <!-- <button class="btn btn-success" type="button" disabled>
-                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                    Enviando...
-                </button> -->
+                <button *ngIf="!btn_registrar" type="submit" class="btn btn-success font-weight-bolder px-9 py-4" (click)="registrar(registroModalForm)">Guardar</button>
+                <button *ngIf="btn_registrar" class="btn btn-success font-weight-bolder px-9 py-4" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    <span role="status">Guardando...</span>
+                </button>
             </div>
         </div>
     </div>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-top',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopComponent implements OnInit {
 
-  constructor() { }
+  public user: any={};
+
+  constructor(private router : Router) { 
+    let str_user: any = localStorage.getItem('user');
+    this.user = JSON.parse(str_user);
+  }
 
   ngOnInit(): void {
+  }
+
+  logOut(){
+    localStorage.clear();
+    this.router.navigate(['']).finally(() => {window.location.reload()});
   }
 
 }

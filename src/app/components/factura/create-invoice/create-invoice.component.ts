@@ -1,4 +1,4 @@
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CabFactura } from 'src/app/interfaces/cabfactura';
@@ -29,6 +29,7 @@ export class CreateInvoiceComponent implements OnInit {
   public load_data = false;
   public data = false;
   public existCustomer = false;
+  public btn_registrar = false;
   public existProduct = false;
   public isEmptyCart = true;
   public precioTransform = '';
@@ -47,6 +48,16 @@ export class CreateInvoiceComponent implements OnInit {
     correo: '',
     direccion: '',
     fechaCreacion: '',
+    activo: undefined
+  };
+
+  public clienteModal: Cliente = {
+    idCliente: 0,
+    nombre: '',
+    identificacion: '',
+    correo: '',
+    direccion: '',
+    fechaCreacion: this._datePipe.transform(new Date(), 'yyyy-MM-dd') ?? '',
     activo: undefined
   };
 
@@ -87,13 +98,15 @@ export class CreateInvoiceComponent implements OnInit {
     total: 0,
     detFacturas: []
   };
+  
 
 
   constructor(private _clienteService: CustomerService,
     private _productoService: ProductService,
     private _cabfacturaService: CabFacturaService,
     private _router: Router,
-    private _currencyPipe: CurrencyPipe) { }
+    private _currencyPipe: CurrencyPipe,
+    private _datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.getCustomers();
@@ -255,6 +268,69 @@ export class CreateInvoiceComponent implements OnInit {
     this._cabfacturaService.getLastId(this.token).subscribe(response => {
       this.ultimoNumFactura = response.data + 1;
     });
+  }
+
+  registrar(registroModalForm : any)  {
+    if (registroModalForm.valid) {
+      this.btn_registrar = true;
+      this._clienteService.create(this.clienteModal,this.token).subscribe(
+        response => {
+          if (response.data == undefined) {
+            $.notify(response.message, {
+              type: 'danger',
+              spacing: 10,
+              timer: 2000,
+              placement: {
+                from: 'top',
+                align: 'right'
+              },
+              delay: 1000,
+              animate: {
+                enter: 'animated ' + 'bounce',
+                exit: 'animated ' + 'bounce'
+              }
+            });
+            this.btn_registrar = false;
+          }
+          else {
+            setTimeout(() => {
+              this.btn_registrar = false;
+            }, 10000);
+            $.notify('Se ha registrado el colaborador correctamente', {
+              type: 'success',
+              spacing: 10,
+              timer: 2000,
+              placement: {
+                from: 'top',
+                align: 'right'
+              },
+              delay: 1000,
+              animate: {
+                enter: 'animated ' + 'bounce',
+                exit: 'animated ' + 'bounce'
+              }
+            });
+            window.location.reload();
+          }
+        });
+
+    }
+    else {
+      $.notify('Debes diligenciar los campos obligatorios', {
+        type: 'danger',
+        spacing: 10,
+        timer: 2000,
+        placement: {
+          from: 'top',
+          align: 'right'
+        },
+        delay: 1000,
+        animate: {
+          enter: 'animated ' + 'bounce',
+          exit: 'animated ' + 'bounce'
+        }
+      });
+    }
   }
 
 }
